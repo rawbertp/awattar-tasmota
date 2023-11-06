@@ -14,6 +14,8 @@ TASMOTA_WEB_BASE_URL = (
 
 SLOT_HOURS = int(os.environ.get("SLOT_HOURS", "5"))
 
+ALWAYS_ENABLE = False
+
 slot = get_results([SLOT_HOURS])
 
 start_time = datetime.datetime.strptime(slot[0][1][0], "%Y-%m-%d %H:%M:%S")
@@ -25,26 +27,27 @@ end_hrs_str = datetime.datetime.strftime(end_time, "%H:%M")
 timer_1_url = f"{TASMOTA_WEB_BASE_URL}&cmnd=Timer1"
 timer_2_url = f"{TASMOTA_WEB_BASE_URL}&cmnd=Timer2"
 
+timer_data = {
+    "Mode": 0,
+    "Window": 0,
+    "Days": "1111111",
+    "Repeat": 1,
+    "Output": 1,
+}
+
+if ALWAYS_ENABLE:
+    timer_data["Enable"] = 1
+
 timer_1_data = {
-    "Enable": 1,
-    "Mode": 0,
     "Time": start_hrs_str,
-    "Window": 0,
-    "Days": "1111111",
-    "Repeat": 1,
-    "Output": 1,
     "Action": 1,
-}
+} | timer_data
+
+
 timer_2_data = {
-    "Enable": 1,
-    "Mode": 0,
     "Time": end_hrs_str,
-    "Window": 0,
-    "Days": "1111111",
-    "Repeat": 1,
-    "Output": 1,
     "Action": 0,
-}
+} | timer_data
 
 
 timer_1_url += urllib.parse.quote(json.dumps(timer_1_data))
