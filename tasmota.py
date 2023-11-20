@@ -4,6 +4,7 @@ import requests
 import urllib.parse
 import json
 import os
+import sys
 
 TASMOTA_WEB_USER = os.environ["TASMOTA_WEB_USER"]
 TASMOTA_WEB_PASSWORD = os.environ["TASMOTA_WEB_PASS"]
@@ -20,6 +21,10 @@ slot = get_results([SLOT_HOURS])
 
 start_time = datetime.datetime.strptime(slot[0][1][0], "%Y-%m-%d %H:%M:%S")
 end_time = start_time + datetime.timedelta(hours=SLOT_HOURS)
+
+if start_time.hour >= end_time.hour:
+    print(f"It looks like start and end time are not on the same day - this is currently not supported yet!")
+    sys.exit(1)
 
 start_hrs_str = datetime.datetime.strftime(start_time, "%H:%M")
 end_hrs_str = datetime.datetime.strftime(end_time, "%H:%M")
@@ -66,3 +71,4 @@ try:
 
 except Exception as e:
     print("Timer updates FAILED!")
+    sys.exit(1)
