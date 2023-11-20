@@ -39,7 +39,7 @@ def find_cheapest_slots(hourly_price_list, slot_hrs):
 
     for slot in slot_hrs:
         intervals = []
-        for i in range(0, len(hourly_price_list) - slot):
+        for i in range(0, len(hourly_price_list) - slot + 1):
             interval_start = hourly_price_list[i][0]
             interval_price_total = round(
                 sum([x[2] for x in hourly_price_list[i : i + slot]]) / slot, 2
