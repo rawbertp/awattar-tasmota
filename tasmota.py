@@ -59,11 +59,13 @@ timer_1_url += urllib.parse.quote(json.dumps(timer_1_data))
 timer_2_url += urllib.parse.quote(json.dumps(timer_2_data))
 
 try:
+    print("Updating timer 1...", timer_1_data)
     response = requests.get(timer_1_url)
     response.raise_for_status()
 
     print("Timer 1 update OK!")
 
+    print("Updating timer 2...", timer_2_data)
     response = requests.get(timer_2_url)
     response.raise_for_status()
 
