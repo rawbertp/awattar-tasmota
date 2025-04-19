@@ -34,9 +34,10 @@ end_time = start_time + datetime.timedelta(hours=SLOT_HOURS)
 
 if start_time.hour >= end_time.hour:
     logger.error("Start and end time are not on the same day - this is currently not supported!")
-    sys.exit(1)
+    start_hrs_str = "00:00"
+else:
+    start_hrs_str = datetime.datetime.strftime(start_time, "%H:%M")
 
-start_hrs_str = datetime.datetime.strftime(start_time, "%H:%M")
 end_hrs_str = datetime.datetime.strftime(end_time, "%H:%M")
 
 timer_1_url = f"{TASMOTA_WEB_BASE_URL}&cmnd=Timer1"
