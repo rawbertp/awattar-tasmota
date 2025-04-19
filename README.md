@@ -4,8 +4,8 @@
 
 Very basic and poorly written lines of code to...
 
-a. fetch the prices from the awattar API --> `awattar.py`
-b. configure Tasmota timers (ON/OFF) --> `tasmota.py`
+1. fetch the prices from the awattar API --> `awattar.py`
+2. configure Tasmota timers (ON/OFF) --> `tasmota.py`
 
 The simple idea behind is:
 
@@ -41,3 +41,10 @@ The script will then update timers 1 and 2 based on the results of the
 - Error handling.
 - Optional web interface credentials.
 
+## How I am using it
+
+I'm using a SONOFF BASICR2 10A that controls a contactor to turn on/off my water heater.
+
+The `tasmota.py` script is run by a cronjob that updates the Tasmota's timers once a day.
+
+This ensures that the water heater always runs when the energy prices are low.
