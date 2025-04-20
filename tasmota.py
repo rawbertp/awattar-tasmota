@@ -81,16 +81,20 @@ try:
     logger.info("Timer 2 update OK!")
 
     # check if power should be on or off
+
     # Get the current hour
     current_hour = datetime.datetime.now().hour
-    if current_hour >= start_time.hour and current_hour < end_time.hour:
-        # If the current hour is within the range, turn on the power
-        logger.info("Power should be ON")
+
+    if end_time.hour < current_hour:
+        logger.info("Current hour is greater than end time, powering off!")
+        power_url = f"{TASMOTA_WEB_BASE_URL}&cmnd=Power1%20Off"
+    elif start_time.hour <= current_hour and end_time.hour > current_hour:
+        logger.info("Current hour is between start and end time, powering on!")
         power_url = f"{TASMOTA_WEB_BASE_URL}&cmnd=Power1%20On"
     else:
-        # If the current hour is outside the range, turn off the power
-        logger.info("Power should be OFF")
+        logger.info("Current hour is outside of start and end time, powering off!")
         power_url = f"{TASMOTA_WEB_BASE_URL}&cmnd=Power1%20Off"
+
     logger.info("Updating power state...")
     logger.debug(f"Power URL: {power_url}")
     response = requests.get(power_url)
